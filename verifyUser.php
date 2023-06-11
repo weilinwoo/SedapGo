@@ -25,6 +25,10 @@ if ($result === 0) {
         if ($password_hash === $row['password']) {
             // Generate and store a new anti-CSRF token for each successful login
             $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+            $_SESSION["username"] = $username;
+
+            // Set the last activity time stamp
+            $_SESSION["last_activity"] = time();
 
             // Redirect the user to the desired page
             echo '<script> alert("Login Successful");</script>';
@@ -35,4 +39,3 @@ if ($result === 0) {
         }
     }
 }
-?>

@@ -2,10 +2,24 @@
 session_start();
 @include "pdo.php";
 
-if (!isset($_SESSION['username']))  {
-  echo '<script> alert("Please login");</script>';
+if (!isset($_SESSION["username"])) {
+
+  echo '<script> alert("Please Log In First");</script>';
   header('refresh:0;url=login.html');
   return;
+} else {
+  if (isset($_SESSION["last_activity"])) {
+    $timeout_seconds = 1800; // 30 minutes
+    $inactive_seconds = time() - $_SESSION["last_activity"];
+    if ($inactive_seconds > $timeout_seconds) {
+      session_destroy();
+      echo '<script> alert("Session timed out");</script>';
+      echo '<script> window.location.href = "login.html"; </script>';
+      return;
+    }
+  }
+
+  $_SESSION["last_activity"] = time();
 }
 
 if(isset($_POST['add_food'])){

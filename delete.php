@@ -2,8 +2,27 @@
 require_once "pdo.php";
 session_start();
 
+if (!isset($_SESSION["username"])) {
 
-if ( isset($_POST['deletefood']) && isset($_POST['food_id']) ) {
+  echo '<script> alert("Please Log In First");</script>';
+  header('refresh:0;url=login.html');
+  return;
+} else {
+  if (isset($_SESSION["last_activity"])) {
+    $timeout_seconds = 1800; // 30 minutes
+    $inactive_seconds = time() - $_SESSION["last_activity"];
+    if ($inactive_seconds > $timeout_seconds) {
+      session_destroy();
+      echo '<script> alert("Session timed out");</script>';
+      echo '<script> window.location.href = "login.html"; </script>';
+      return;
+    }
+  }
+
+  $_SESSION["last_activity"] = time();
+}
+
+if (isset($_POST['deletefood']) && isset($_POST['food_id'])) {
   $sql = "DELETE FROM food WHERE food_id = :food_id";
   $stmt = $pdo->prepare($sql);
   $stmt->execute(array(':food_id' => $_POST['food_id']));
@@ -12,11 +31,11 @@ if ( isset($_POST['deletefood']) && isset($_POST['food_id']) ) {
   return;
 }
 
-if (!isset($_GET['food_id']))  {
+if (!isset($_GET['food_id'])) {
   echo '<script> alert("Please login");</script>';
   header('refresh:0;url=login.html');
   return;
-}else{
+} else {
   $stmt = $pdo->prepare("SELECT food_name, food_id FROM food where food_id = :food_id");
   $stmt->execute(array(":food_id" => $_GET['food_id']));
   $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -39,22 +58,22 @@ if (!isset($_GET['food_id']))  {
       </div>
       <form action="delete.php" method="post">
         <div class="modal-body">
-            <input type="hidden" name="delete_id" id="delete_id">
+          <input type="hidden" name="delete_id" id="delete_id">
 
-            <h5> Are you sure to delete <?= htmlentities($row['food_name']) ?> ?</h5>
+          <h5> Are you sure to delete <?= htmlentities($row['food_name']) ?> ?</h5>
         </div>
         <div class="modal-footer">
           <input type="hidden" name="food_id" value="<?= $row['food_id'] ?>">
           <button type="submit" name="deletefood" class="btn btn-danger"> Yes </button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="javascript:window.location='index.php'"> No </button>
-          </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   </div>
+</div>
 
-  <script>
-      $(document).ready(function(){
-          $("#deletemodal").modal('show');
-      });
-  </script>
+<script>
+  $(document).ready(function() {
+    $("#deletemodal").modal('show');
+  });
+</script>
