@@ -3,11 +3,12 @@
 <head>
 	<title>SedapGO</title>
 	<meta charset="UTF-8">
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' fonts.googleapis.com; img-src 'self'; font-src 'self' fonts.gstatic.com; form-action 'self';">
 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
 
@@ -15,13 +16,13 @@
 		<div class="container-login100">
 			<div class="wrap-login100">
 				<div class="login100-form-title">
-					<img src="img/SedapGO.png"style = "height:82px; width:160px" class="logo" alt="SedapGo"/>
+					<img src="img/SedapGO.png" class="logo" alt="SedapGo"/>
 				</div>
 
 				<form class="login100-form validate-form" method="post" action="verifyUser.php">
 					<div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
 						<span class="label-input100">Username</span>
-						<input class="input100" type="text" name="username" placeholder="Enter username">
+						<input class="input100 username" type="text" name="username" placeholder="Enter username">
 						<span class="focus-input100"></span>
 					</div>
 
@@ -31,6 +32,10 @@
 						<span class="focus-input100"></span>
 					</div>
 
+					<!-- Include the anti-CSRF token as a hidden input field -->
+					<input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+
+
 					<div class="container-login100-form-btn">
 				  <button type="submit" class="login100-form-btn">Login</button>
 					</div>
@@ -39,5 +44,6 @@
 			</div>
 		</div>
 	</div>
+	<!-- <script src="script.js"></script> -->
 </body>
 </html>
