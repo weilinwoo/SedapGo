@@ -82,7 +82,28 @@ if (!isset($_GET['food_id'])) {
 
   <!-- custom css file link  -->
   <link rel="stylesheet" href="styles.css">
+  <script>
+    // Start monitoring user activity
+    var timeoutSeconds = 1800;
+    var timeout = setTimeout(redirectLogout, timeoutSeconds * 1000);
 
+    function redirectLogout() {
+      alert("Session timed out. You will be redirected to the login page.");
+      window.location.href = "login.html";
+    }
+
+    function resetTimeout() {
+      clearTimeout(timeout);
+      timeout = setTimeout(redirectLogout, timeoutSeconds * 1000);
+    }
+
+    // Attach event listeners to monitor user activity
+    window.addEventListener("mousemove", resetTimeout);
+    window.addEventListener("mousedown", resetTimeout);
+    window.addEventListener("keydown", resetTimeout);
+    window.addEventListener("scroll", resetTimeout);
+    window.addEventListener("touchstart", resetTimeout);
+  </script>
 </head>
 
 <body>
