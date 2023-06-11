@@ -81,19 +81,19 @@ if (!isset($_GET['food_id']))  {
     <form  method="post" class="add-product-form" enctype="multipart/form-data">
       <h3>Edit food item</h3>
 
-   <input type="text" name="f_name" value="<?= $f ?>" class="box" required>
-   <input type="number" name="f_price" step="0.01" min="0" value="<?= $p?>" class="box" required>
-   <img src="img/<?= $i ?>" class="box" alt="">
-   <input type="file" name="image" accept="image/png, image/jpg, image/jpeg" class="box">
-   <input type="hidden" name="f_id" value="<?= $id ?>">
-   <input type="submit" value="Edit" name="edit_food" class="btn">
-   <a href="index.php">
-     <input class="cancel-btn" type=button value="Cancel"/>
-   </a>
+      <input type="text" name="f_name" value="<?= $f ?>" class="box" required minlength="3" maxlength = "50">
+      <input type="number" name="f_price" step="0.1" min="0" value="<?= $p?>" class="box" required>
+      <img src="img/<?= $i ?>" class="box" alt="">
+      <input type="file" name="image" accept="image/png, image/jpg, image/jpeg" class="box">
+      <input type="hidden" name="f_id" value="<?= $id ?>">
+      <input type="submit" value="Edit" name="edit_food" class="btn">
+      <a href="index.php">
+        <input class="cancel-btn" type=button value="Cancel"/>
+      </a>
 
-</form>
+    </form>
 
-</section>
+  </section>
 </div>
   <!-- custom js file link  -->
   <script src="script.js"></script>

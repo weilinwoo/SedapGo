@@ -14,7 +14,10 @@ if(isset($_POST['add_food'])){
   $f_image = $_FILES['f_image']['name'];
   $f_image_tmp_name = $_FILES['f_image']['tmp_name'];
   $f_image_folder = 'img/'. $f_image;
-  $f_rating =0;
+  $f_rating = 0;
+
+  //validate the input
+  //if (empty)
 
   $insert_stmt = $pdo->prepare("INSERT INTO food (food_name, unit_price, image, rating)
   VALUES (:name, :price, :image, :rating)");
@@ -66,8 +69,8 @@ if(isset($_POST['add_food'])){
 
   <form action="" method="post" class="add-product-form" enctype="multipart/form-data">
    <h3>add food item</h3>
-   <input type="text" name="f_name" placeholder="Enter the food name" class="box" required>
-   <input type="number" name="f_price" step="0.01" min="0" placeholder="Enter the food unit price" class="box" required>
+   <input type="text" name="f_name" placeholder="Enter the food name" class="box" required minlength="3" maxlength="50">
+   <input type="number" name="f_price" step="0.1" min="0" placeholder="Enter the food unit price" class="box" required>
    <input type="file" name="f_image" accept="image/png, image/jpg, image/jpeg" class="box" required>
    <input type="submit" value="add food item" name="add_food" class="btn">
    <input class="reset-btn" type="reset" value="reset">
